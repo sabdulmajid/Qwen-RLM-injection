@@ -1,0 +1,28 @@
+# OOLONG RLM Research Project Requirements
+
+# Core ML Framework
+torch>=2.0.0
+transformers>=4.40.0
+accelerate>=0.27.0
+
+# Dataset Loading
+datasets>=2.14.0
+huggingface_hub>=0.20.0
+
+# Model Quantization
+bitsandbytes>=0.42.0
+
+# Mechanistic Interpretability
+# nnsight  # Uncomment if using nnsight for activation patching
+# transformer_lens  # Uncomment if using TransformerLens
+
+# Utilities
+numpy>=1.24.0
+tqdm>=4.65.0
+
+# Visualization (optional)
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# API clients
+ollama  # For Qwen API on nebula04
