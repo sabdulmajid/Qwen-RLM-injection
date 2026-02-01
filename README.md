@@ -8,7 +8,7 @@
 
 ---
 
-## 🎯 What is This?
+## What is This?
 
 Traditional language models fail catastrophically on ultra-long contexts (>100K tokens). Even state-of-the-art models with "infinite" context windows suffer from **context rot** — their reasoning degrades as context grows.
 
@@ -22,7 +22,7 @@ This project implements and analyzes RLMs on the **OOLONG benchmark** — a dens
 
 ---
 
-## 🔬 Key Insights
+## Key Insights
 
 ### The Problem: Context Rot in Long Documents
 
@@ -51,27 +51,27 @@ This **recursive decomposition** mirrors how humans solve complex problems: brea
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────────────────────────────┐
-│  Controller (Qwen-Coder-14B-Int4)      │
+│  Controller (Qwen-Coder-14B-Int4)       │
 │  • Sees: Task + len(document)           │
 │  • Generates: Python code               │
-│  • Hardware: GPU 0 (NVIDIA RTX A4500)  │
+│  • Hardware: GPU 0 (NVIDIA RTX A4500)   │
 └─────────────────────────────────────────┘
                     ↓
          ┌─────────────────────┐
-         │  REPL Environment    │
-         │  • prompt variable   │
-         │  • sub_call() func   │
+         │  REPL Environment   │
+         │  • prompt variable  │
+         │  • sub_call() func  │
          └─────────────────────┘
                     ↓
 ┌─────────────────────────────────────────┐
-│  Worker (Qwen-7B-FP16)                 │
+│  Worker (Qwen-7B-FP16)                  │
 │  • Receives: Text chunks                │
 │  • Returns: Extracted information       │
-│  • Hardware: GPU 1 (NVIDIA RTX A4500)  │
+│  • Hardware: GPU 1 (NVIDIA RTX A4500)   │
 └─────────────────────────────────────────┘
 ```
 
@@ -82,7 +82,7 @@ This **recursive decomposition** mirrors how humans solve complex problems: brea
 
 ---
 
-## 📊 Dataset: OOLONG-real (D&D)
+## Dataset: OOLONG-real (D&D)
 
 - **12,067 examples** (5,995 validation + 6,072 test)
 - **Average context**: 383K tokens (~1.5M characters)
@@ -96,61 +96,7 @@ This **recursive decomposition** mirrors how humans solve complex problems: brea
 
 ---
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-```bash
-# Hardware
-2x NVIDIA RTX A4500 (20GB each) or equivalent
-
-# Software
-Python 3.13+
-CUDA 12.8+
-PyTorch 2.9+
-```
-
-### Installation
-
-```bash
-# Clone repository
-git clone https://github.com/sabdulmajid/Qwen-RLM-injection.git
-cd Qwen-RLM-injection
-
-# Create environment
-python -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Set cache directory (optional, for HPC clusters)
-export HF_HOME=/path/to/cache
-```
-
-### Quick Test
-
-```bash
-# Load OOLONG dataset
-python scripts/load_dataset.py
-
-# Run basic RLM test
-python src/rlm_pipeline.py
-```
-
-### Run Evaluation
-
-```bash
-# Evaluate on 10 examples
-python experiments/evaluate.py --num_examples 10 --split validation
-
-# Full benchmark
-sbatch scripts/run_evaluation.sbatch
-```
-
----
-
-## 🔍 Research Questions
+## Research Questions
 
 1. **Information Flow**: How does information propagate through recursive `sub_call()` boundaries?
 2. **Planning Quality**: What coding patterns emerge in the Controller's strategies?
@@ -161,7 +107,7 @@ Future work will add **mechanistic interpretability** analysis using activation 
 
 ---
 
-## 📈 Preliminary Results
+## Preliminary Results
 
 *Evaluation in progress. Results will be added upon completion.*
 
@@ -172,55 +118,3 @@ Key metrics:
 - Runtime per example
 
 ---
-
-## 🛠️ Development
-
-### Running on SLURM Cluster
-
-```bash
-# Submit job to dualcard partition
-sbatch scripts/run_evaluation.sbatch
-
-# Monitor progress
-watch -n 5 'squeue -u $USER && tail -20 rlm_*.out'
-```
-
-### Modifying the Architecture
-
-- **Different models**: Edit `model_name` in `src/controller.py` or `src/worker.py`
-- **Quantization**: Adjust `BitsAndBytesConfig` for different precision
-- **REPL sandbox**: Modify allowed functions in `src/repl.py`
-
----
-
-## 📚 Citation
-
-If you use this code or findings, please cite the original RLM paper:
-
-```bibtex
-@article{zhang2025recursive,
-  title={Recursive Language Models},
-  author={Zhang, et al.},
-  journal={arXiv preprint arXiv:2501.03908},
-  year={2025}
-}
-```
-
----
-
-## 🙏 Acknowledgments
-
-- **MIT CSAIL** for the RLM paradigm
-- **OOLONG Team** for the benchmark dataset
-- **Qwen Team** for open-source models
-- Compute resources provided by ECE Department, University of Toronto
-
----
-
-## 📝 License
-
-MIT License - see [LICENSE](LICENSE) for details.
-
----
-
-**Questions?** Open an issue or reach out via [LinkedIn](https://linkedin.com/in/sabdulmajid)
